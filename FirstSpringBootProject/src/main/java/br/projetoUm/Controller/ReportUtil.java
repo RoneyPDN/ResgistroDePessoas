@@ -1,0 +1,31 @@
+package br.projetoUm.Controller;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+
+import org.springframework.stereotype.Component;
+
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+
+@Component
+public class ReportUtil {
+
+	
+	public byte[] gerarRelatorio (List listDados, String relatorio, ServletContext servletContext) throws Exception  {
+		JRBeanCollectionDataSource jrbcds = new JRBeanCollectionDataSource(listDados);
+		
+		String caminhoJasper = servletContext.getRealPath("relatorios") 
+				+ File.separator + relatorio + ".jasper";
+		
+		JasperPrint impressoraJasper = JasperFillManager.fillReport(caminhoJasper, new HashMap(), jrbcds);
+		
+		return JasperExportManager.exportReportToPdf(impressoraJasper);
+	}
+}
