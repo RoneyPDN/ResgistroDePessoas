@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/2001/XMLSchema-instance" xmlns:th="http://www.thymeleaf.org ">
+<head>
+<meta charset="UTF-8">
+ <!--Import Google Icon Font-->
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <!--Import materialize.css-->
+ <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
+ 
+ <style type="text/css">
+ form input[type=submit]{
+ color: white;
+ }
+ </style>
+
+<title>Cadastro Telefone</title>
+</head>
+<body>
+<h5>Telefones</h5>
+	<div th:each="p : ${pessoabj}">
+		<div class="row">
+			<p>
+				ID: <span th:text="${p.id}"></span>
+			</p>
+			<p>
+				Nome: <span th:text="${p.nome}"></span>
+			</p>
+			<p>
+				Sobrenome: <span th:text="${p.sobrenome}"></span>
+			</p>
+		</div>
+	</div>
+	
+<br>
+<a href="/cadastropessoa" class="waves-effect waves-light btn">Cadastrar Pessoa</a>
+<br>
+<br>
+	<H5>Telefones</H5>
+	<div class="row">
+		<form th:action="@{/addtelefone/{idpessoa}(idpessoa=${pessoabj.id})}"
+			method="post" class="col s12" onsubmit="return validaFone()? true : false">
+			<div class="input-field col s6">
+				<label class="active" for="numero">Número</label> <input id="numero"
+					name="numero" class="validate">
+			</div>
+			<div class="input-field col s6">
+				<label class="active" for="tipo">Tipo</label> <input id="tipo"
+					name="tipo" class="validate">
+			</div>
+			<input class="waves-effect waves-light btn" type="submit"
+				value="Cadastrar Telefone">
+		</form>
+	</div>
+	
+	<br>
+	<br>
+
+	<table class="striped">
+		<thead>
+			<tr>
+				<th>Número</th>
+				<th>Tipo</th>
+			</tr>
+		</thead>
+		<tr th:each="fone: ${telefones}">
+			<th th:text="${fone.numero}"></th>
+			<th th:text="${fone.tipo}"></th>
+			<th><a th:href ="@{/removertelefone/{idtelefone}(idtelefone=${fone.id})}">Excluir </a></th>
+		</tr>
+	</table>
+	<script>
+	function validaFone(){
+	numero = document.getElementById('numero').value;
+	tipo = document.getElementById('tipo').value;
+	
+	if(numero === ''){
+	alert('Número vazio')
+	return false
+	}
+	if(tipo === '') {
+	alert('Tipo vazio')
+	return false
+	}
+	return true;
+	}</script>
+	<script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+<script type="text/javascript" src="/materialize/js/materialize.js"></script>
+
+</body>
+</html>
